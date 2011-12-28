@@ -1,0 +1,15 @@
+name: HelpTicket
+main: tk.tyzoid.plugins.Template.Template
+version: 1.0.0a
+author: Tyzoid
+permissions:
+    template.*:
+        description: Gives access to all template commands
+        children:
+            template.foo: true
+    template.foo:
+        description: Allows people to use /foo
+        default: OP
+    template.bar
+        description: Allows people to use /bar
+        default: OP
