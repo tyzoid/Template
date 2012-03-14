@@ -5,19 +5,23 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Properties;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class settings {
+public class Settings {
 	private Properties props = new Properties();
 	
 	private final HashMap<String, String> settingsHolder = new HashMap<String, String>();
-	private String pluginname = "HelpTicket";
+	private String pluginname;
+	private Template plugin;
+	
+	public Settings(Template instance){
+		this.plugin = instance;
+		this.pluginname = plugin.pluginname;
+	}
 	
 	public void readSettings(){
 		try{
-			String path = "plugins/HelpTicket";
-			File propertiesFile = new File(path + "/HelpTicket.properties");
+			String path = "plugins/CheckID";
+			File propertiesFile = new File(path + "/CheckID.properties");
     		if(!propertiesFile.exists()){
     			(new File(path)).mkdir();
     			propertiesFile.createNewFile();
@@ -29,8 +33,11 @@ public class settings {
 			System.out.println("[" + pluginname + "] Properties loaded.");
 			propertiesStream.close();
 			
-			settingsHolder.put("foo", loadProperty("foo", "true"));
-			settingsHolder.put("bar", loadProperty("bar", "false"));
+			//commands
+			loadProperty("command-CheckID", "/CheckID,/ci");
+			//loadProperty("", "");
+			
+			verifySettings();
 			
 			FileOutputStream propertiesOutputStream = new FileOutputStream(propertiesFile);
 			props.store(propertiesOutputStream, "");
@@ -39,7 +46,7 @@ public class settings {
 			System.out.println("[" + pluginname + "] Error: " + e.toString());
 		}
 	}
-	
+
 	public String getProperty(String property){
 		return settingsHolder.get(property);
 	}
@@ -48,7 +55,11 @@ public class settings {
 		readSettings();
 	}
 	
-	private String loadProperty(String property, String defaultValue){
+	private void loadProperty(String property, String defaultValue){
+		settingsHolder.put(property, lProperty(property, defaultValue));
+	}
+	
+	private String lProperty(String property, String defaultValue){
 		String currentProperty;
 		currentProperty = props.getProperty(property);
 		String value;
@@ -60,6 +71,11 @@ public class settings {
     		value = currentProperty;
     	}
     	return value;
+	}
+	
+
+	private void verifySettings() {
+		
 	}
 	
 	@SuppressWarnings("unused")

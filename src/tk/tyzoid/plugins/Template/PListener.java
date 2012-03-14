@@ -1,10 +1,11 @@
 package tk.tyzoid.plugins.Template;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerListener;
 
-public class PListener extends PlayerListener {
+public class PListener implements Listener {
 	private final Template plugin;
 	private String pluginname;
 	
@@ -13,23 +14,16 @@ public class PListener extends PlayerListener {
 		pluginname = plugin.pluginname;
 	}
 	
+	@EventHandler
 	public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
     	String[] split = event.getMessage().split(" ");
-    	String command = event.getMessage();
+    	//String command = event.getMessage();
 		Player player = event.getPlayer();
 		
 		//the /foo command
-		if(split[0] == "/foo" && plugin.hasPermission(player, "template.foo")){
+		if(split[0] == "/checkID" && player.hasPermission("template.foo")){
 			player.sendMessage("[" + pluginname + "] I sense shenanigans. You used /foo");
 			plugin.getServer().broadcastMessage("[" + pluginname + "] " + player.getName() + " used /foo");
-			event.setCancelled(true);
-			
-			return;
-		}
-		
-		if(split[0] == "/bar" && plugin.hasPermission(player, "template.bar")){
-			player.sendMessage("[" + pluginname + "] I sense shenanigans. You used /bar");
-			plugin.getServer().broadcastMessage("[" + pluginname + "] " + player.getName() + " used /bar");
 			event.setCancelled(true);
 			
 			return;
