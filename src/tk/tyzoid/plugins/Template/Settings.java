@@ -20,8 +20,8 @@ public class Settings {
 	
 	public void readSettings(){
 		try{
-			String path = "plugins/CheckID";
-			File propertiesFile = new File(path + "/CheckID.properties");
+			String path = "plugins/Template";
+			File propertiesFile = new File(path + "/Template.properties");
     		if(!propertiesFile.exists()){
     			(new File(path)).mkdir();
     			propertiesFile.createNewFile();
@@ -34,7 +34,7 @@ public class Settings {
 			propertiesStream.close();
 			
 			//commands
-			loadProperty("command-CheckID", "/CheckID,/ci");
+			loadProperty("command-Template", "/Template");
 			//loadProperty("", "");
 			
 			verifySettings();
